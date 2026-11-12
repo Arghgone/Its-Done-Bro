@@ -13,7 +13,7 @@ public final class Policy {
 
     private Policy() {}
 
-    public static void applyAll(Context context) {
+    public static void apply(Context context) {
         DevicePolicyManager dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
         ComponentName admin = new ComponentName(context, AdminReceiver.class);
 
