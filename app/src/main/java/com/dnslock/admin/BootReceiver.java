@@ -10,6 +10,6 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent != null ? intent.getAction() : "";
         Log.i(Policy.TAG, "BootReceiver triggered: " + action);
-        Policy.applyAll(context);
+        Policy.apply(context);
     }
 }
