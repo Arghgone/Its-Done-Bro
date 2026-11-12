@@ -2,14 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 
-    <!-- testOnly="true" is what lets the laptop remove device owner later with
-         "adb shell dpm remove-active-admin". Without it, only a factory reset removes it.
-         No <activity> on purpose: no icon, no screen, nothing to tap on the phone. -->
     <application
-        android:label="DNS Lock"
         android:allowBackup="false"
-        android:testOnly="true">
+        android:label="DNS Lock">
 
         <receiver
             android:name=".AdminReceiver"
@@ -23,8 +20,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- Re-apply trigger, used from the laptop only:
-             adb shell am broadcast -n com.dnslock.admin/.ApplyReceiver -a com.dnslock.admin.APPLY -->
         <receiver
             android:name=".ApplyReceiver"
             android:exported="true">
@@ -35,9 +30,13 @@
 
         <receiver
             android:name=".BootReceiver"
-            android:exported="false">
+            android:directBootAware="true"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
 
